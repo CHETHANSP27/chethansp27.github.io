@@ -130,6 +130,47 @@
             animation: float 20s ease-in-out infinite;
         }
 
+        /* Hamburger menu */
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        /* Mobile nav behavior */
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: linear-gradient(
+                    45deg,
+                    rgba(102, 126, 234, 0.8),
+                    rgba(118, 75, 162, 0.8)
+                );
+
+                position: absolute;
+                top: 100%;
+                right: 0;
+                width: 100%;
+                padding: 1rem 2rem;
+                z-index: 999;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-links li {
+                margin: 10px 0;
+                text-align: right;
+            }
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-20px); }
@@ -614,6 +655,10 @@
     <header>
         <nav class="container">
             <a href="#home" class="logo">Chethan S P</a>
+            <!-- Hamburger icon -->
+            <div class="hamburger" onclick="toggleMenu()">☰</div>
+
+            <!-- Navigation links -->
             <ul class="nav-links">
                 <li><a href="#home"><span>Home</span></a></li>
                 <li><a href="#about"><span>About</span></a></li>
@@ -908,20 +953,39 @@
             });
         });
 
+        function toggleMenu() {
+            const nav = document.querySelector('.nav-links');
+            nav.classList.toggle('open');
+        }
+
+        // Close the menu when any nav link is clicked (on mobile)
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                const nav = document.querySelector('.nav-links');
+                if (nav.classList.contains('open')) {
+                    nav.classList.remove('open');
+                }
+            });
+        });
+
         // Header scroll effect
         window.addEventListener('scroll', function() {
             const header = document.querySelector('header');
             const logo = document.querySelector('.logo');
             const navLinks = document.querySelectorAll('.nav-links a');
+            const hamburger = document.querySelector('.hamburger');
+
             if (window.scrollY > 100) {
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
                 header.style.backdropFilter = 'blur(20px)';
                 logo.style.color = '#000';
+                hamburger.style.color = '#000';
                 navLinks.forEach(link => link.style.color = '#000');
             } else {
                 header.style.background = 'rgba(255, 255, 255, 0.1)';
                 header.style.backdropFilter = 'blur(10px)';
                 logo.style.color = '#fff';
+                hamburger.style.color = '#fff';
                 navLinks.forEach(link => link.style.color = '#fff');
             }
         });
@@ -972,6 +1036,7 @@
                 this.reset();
             }, 3000);
         });
+
 
         // Add typing effect to hero subtitle
         const subtitle = document.querySelector('.hero-subtitle');
