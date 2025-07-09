@@ -46,12 +46,35 @@
         }
 
         .logo {
+            display: flex;
+            align-items: center;
             font-size: 1.8rem;
             font-weight: bold;
             color: white;
             text-decoration: none;
             transition: color 0.3s ease;
+            /* transform: translateY(-4px); Optional: adjust as needed */
         }
+
+        .logo-img {
+            height: 44px;
+            width: 44px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid black;
+            box-shadow: 0 0 8px rgba(255, 255, 255, 0.2);
+            margin-top: 4px;
+            margin-bottom: 4px;
+            margin-right: 8px;
+            transition: transform 0.3s ease;
+            /* transform: translateY(10px); BASE Y offset */
+            transform-origin: center center;
+        }
+
+        .logo-img:hover {
+            transform: translateY(10px) scale(1.1); /* Combine both! */
+        }
+
 
         .nav-links {
             display: flex;
@@ -654,7 +677,9 @@
 <body>
     <header>
         <nav class="container">
-            <a href="#home" class="logo">Chethan S P</a>
+            <a href="#home" class="logo">
+            <img src="logo.jpg" alt="CSP Logo" class="logo-img" />Chethan S P
+            </a>
             <!-- Hamburger icon -->
             <div class="hamburger" onclick="toggleMenu()">☰</div>
 
