@@ -1133,7 +1133,7 @@
             }
 
             if (!isDeleting && charIndex === currentText.length) {
-                setTimeout(() => isDeleting = true, 2000);
+                setTimeout(() => isDeleting = true, 1000);
             } else if (isDeleting && charIndex === 0) {
                 isDeleting = false;
                 currentRole = (currentRole + 1) % roles.length;
