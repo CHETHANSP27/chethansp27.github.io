@@ -843,7 +843,7 @@
             transform: translateY(0);
         }
 
-        .visitor-counter {
+/*         .visitor-counter {
             position: fixed;
             bottom: 20px;
             right: 20px;
@@ -884,7 +884,7 @@
                 padding: 8px 12px;
                 font-size: 0.8rem;
             }
-        }
+        } */
     </style>
 </head>
 <body>
@@ -1212,11 +1212,11 @@
             </div>
         </div>
     </section>
-    <div class="visitor-counter">
+<!--     <div class="visitor-counter">
             <span class="counter-icon">👥</span>
             <span class="counter-text">Visitors:</span>
             <span id="visitor-count">Loading...</span>
-    </div>
+    </div> -->
     <footer>
         <div class="container">
             <p>&copy; 2025 Chethan S P. Crafted with curiosity, innovation, and code.</p>
@@ -1621,24 +1621,24 @@
         `;
         document.head.appendChild(style);
 
-        function updateLocalVisitorCount() {
-            const element = document.getElementById('visitor-count');
-            if (!element) return;
+        // function updateLocalVisitorCount() {
+        //     const element = document.getElementById('visitor-count');
+        //     if (!element) return;
     
-            const today = new Date().toDateString();
-            const lastVisit = localStorage.getItem('last-visit');
-            let count = parseInt(localStorage.getItem('visitor-count') || '0');
+        //     const today = new Date().toDateString();
+        //     const lastVisit = localStorage.getItem('last-visit');
+        //     let count = parseInt(localStorage.getItem('visitor-count') || '0');
     
-            if (lastVisit !== today) {
-                count++;
-                localStorage.setItem('visitor-count', count.toString());
-                localStorage.setItem('last-visit', today);
-            }
+        //     if (lastVisit !== today) {
+        //         count++;
+        //         localStorage.setItem('visitor-count', count.toString());
+        //         localStorage.setItem('last-visit', today);
+        //     }
     
-            element.textContent = count;
-        }
+        //     element.textContent = count;
+        // }
     
-        document.addEventListener('DOMContentLoaded', updateLocalVisitorCount);
+        // document.addEventListener('DOMContentLoaded', updateLocalVisitorCount);
     </script>
 </body>
 </html>
