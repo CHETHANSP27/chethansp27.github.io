@@ -1622,61 +1622,66 @@
         document.head.appendChild(style);
 
         async function updateVisitorCount() {
-            console.log('Function called');
-            console.log('Current URL:', window.location.href);
-            console.log('Hostname:', window.location.hostname);
-            console.log('Protocol:', window.location.protocol);
-            
-            // Check if the element exists
             const element = document.getElementById('visitor-count');
             if (!element) {
                 console.error('Element with id "visitor-count" not found!');
                 return;
             }
             
-            // Check if we're in development mode
-            // const isDevelopment = window.location.hostname === 'localhost' || 
-            //                     window.location.hostname === '127.0.0.1' ||
-            //                     window.location.hostname === '' ||
-            //                     window.location.protocol === 'file:';
-
-            // console.log('Is development mode:', isDevelopment);
-
-            // if (isDevelopment) {
-            //     element.textContent = '123 (Dev Mode)';
-            //     console.log('Development mode: Using placeholder visitor count');
-            //     return;
-            // }
-
-            try {
-                console.log('Attempting to fetch from countapi...');
-                const response = await fetch('https://api.countapi.xyz/hit/chethansp27-portfolio/visits');
-                
-                console.log('Response status:', response.status);
-                console.log('Response ok:', response.ok);
-                
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+            // Try alternative APIs
+            const apis = [
+                // Alternative CountAPI service
+                'https://countapi.mileshilliard.com/hit/chethansp27-portfolio/visits',
+                // Backup: Use a different service
+                'https://api.countapi.xyz/hit/chethansp27-portfolio/visits'
+            ];
+        
+            for (const apiUrl of apis) {
+                try {
+                    console.log(`Trying API: ${apiUrl}`);
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    console.log('API Response:', data);
+                    
+                    if (data.value !== undefined) {
+                        element.textContent = data.value;
+                        console.log('Visitor count updated:', data.value);
+                        return; // Success!
+                    }
+                } catch (error) {
+                    console.log(`API failed: ${apiUrl}`, error);
+                    continue;
                 }
-                
-                const data = await response.json();
-                console.log('Received data:', data);
-                
-                element.textContent = data.value;
-                console.log('Visitor count updated successfully:', data.value);
-            } catch (error) {
-                console.error('Detailed error:', error);
-                console.error('Error name:', error.name);
-                console.error('Error message:', error.message);
-                element.textContent = 'Error loading count';
             }
+            
+            // If all APIs fail, show a simple incrementing counter
+            showFallbackCounter(element);
         }
-
-        // Call the function when page loads
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, calling updateVisitorCount');
-            updateVisitorCount();
-        });
+        
+        function showFallbackCounter(element) {
+            // Get current count from localStorage or start at 1
+            let count = parseInt(localStorage.getItem('visitor-count') || '1');
+            
+            // Only increment if it's a new session
+            const lastVisit = localStorage.getItem('last-visit');
+            const today = new Date().toDateString();
+            
+            if (lastVisit !== today) {
+                count++;
+                localStorage.setItem('visitor-count', count.toString());
+                localStorage.setItem('last-visit', today);
+            }
+            
+            element.textContent = count;
+            console.log('Using fallback counter:', count);
+        }
+        
+        document.addEventListener('DOMContentLoaded', updateVisitorCount);
     </script>
 </body>
 </html>
