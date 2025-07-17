@@ -1621,67 +1621,24 @@
         `;
         document.head.appendChild(style);
 
-        async function updateVisitorCount() {
+        function updateLocalVisitorCount() {
             const element = document.getElementById('visitor-count');
-            if (!element) {
-                console.error('Element with id "visitor-count" not found!');
-                return;
-            }
-            
-            // Try alternative APIs
-            const apis = [
-                // Alternative CountAPI service
-                'https://countapi.mileshilliard.com/hit/chethansp27-portfolio/visits',
-                // Backup: Use a different service
-                'https://api.countapi.xyz/hit/chethansp27-portfolio/visits'
-            ];
-        
-            for (const apiUrl of apis) {
-                try {
-                    console.log(`Trying API: ${apiUrl}`);
-                    const response = await fetch(apiUrl);
-                    
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-                    
-                    const data = await response.json();
-                    console.log('API Response:', data);
-                    
-                    if (data.value !== undefined) {
-                        element.textContent = data.value;
-                        console.log('Visitor count updated:', data.value);
-                        return; // Success!
-                    }
-                } catch (error) {
-                    console.log(`API failed: ${apiUrl}`, error);
-                    continue;
-                }
-            }
-            
-            // If all APIs fail, show a simple incrementing counter
-            showFallbackCounter(element);
-        }
-        
-        function showFallbackCounter(element) {
-            // Get current count from localStorage or start at 1
-            let count = parseInt(localStorage.getItem('visitor-count') || '1');
-            
-            // Only increment if it's a new session
-            const lastVisit = localStorage.getItem('last-visit');
+            if (!element) return;
+    
             const today = new Date().toDateString();
-            
+            const lastVisit = localStorage.getItem('last-visit');
+            let count = parseInt(localStorage.getItem('visitor-count') || '0');
+    
             if (lastVisit !== today) {
                 count++;
                 localStorage.setItem('visitor-count', count.toString());
                 localStorage.setItem('last-visit', today);
             }
-            
+    
             element.textContent = count;
-            console.log('Using fallback counter:', count);
         }
-        
-        document.addEventListener('DOMContentLoaded', updateVisitorCount);
+    
+        document.addEventListener('DOMContentLoaded', updateLocalVisitorCount);
     </script>
 </body>
 </html>
