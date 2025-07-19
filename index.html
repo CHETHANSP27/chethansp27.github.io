@@ -1652,7 +1652,10 @@
     <!-- Enhanced Footer -->
     <footer class="footer">
         <div class="social-links">
-            <a href="mailto:chethansp27@gmail.com" class="social-link" target="_blank" rel="noopener">📧</a>
+            <a href="mailto:chethansp27@gmail.com?subject=Portfolio Contact" 
+           class="social-link" 
+           onclick="handleEmailClick(event)" 
+           title="Send Email">📧</a>
             <a href="https://linkedin.com/in/chethan-s-p-612b2b249" class="social-link">💼</a>
             <a href="https://github.com/CHETHANSP27" class="social-link">🐙</a>
             <!-- <a href="tel:+919110262699" class="social-link">📞</a> -->
@@ -1767,6 +1770,46 @@
                     updateCounter();
                 });
             }
+
+            function handleEmailClick(event) {
+                const email = 'chethansp27@gmail.com';
+                const subject = 'Portfolio Contact';
+                
+                // Try different approaches
+                try {
+                    // Method 1: Direct window.location
+                    window.location = `mailto:${email}?subject=${encodeURIComponent(subject)}`;
+                    
+                    // Method 2: Fallback after short delay
+                    setTimeout(() => {
+                        if (confirm('If your email client didn\'t open, would you like to copy the email address?')) {
+                            copyToClipboard(email);
+                        }
+                    }, 2000);
+                    
+                } catch (error) {
+                    // If all else fails, copy to clipboard
+                    copyToClipboard(email);
+                }
+            }
+            
+            function copyToClipboard(text) {
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert(`Email address "${text}" copied to clipboard!`);
+                    });
+                } else {
+                    // Fallback for older browsers
+                    const textArea = document.createElement('textarea');
+                    textArea.value = text;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                    alert(`Email address "${text}" copied to clipboard!`);
+                }
+            }
+            
 
             // Enhanced skill bars animation
             function animateSkillBars() {
