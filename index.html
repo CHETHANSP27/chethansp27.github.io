@@ -346,10 +346,12 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            padding: 0 2rem;
+            padding: 80px 2rem 0 2rem; /* Added top padding for header space */
             position: relative;
             overflow: hidden;
+            box-sizing: border-box; /* Ensure padding is included in height calculation */
         }
+
 
         .hero::before {
             content: '';
