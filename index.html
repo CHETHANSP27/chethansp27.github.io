@@ -346,6 +346,38 @@
             text-shadow: 0 0 10px var(--glow-color);
         }
 
+        .hamburger {
+            display: none;
+            font-size: 2rem;
+            background: none;
+            border: none;
+            color: var(--accent-color);
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .hamburger {
+                display: block;
+            }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: rgba(10, 10, 10, 0.95);
+                position: absolute;
+                top: 70px;
+                right: 0;
+                padding: 1rem;
+                width: 200px;
+                border-left: 1px solid rgba(0, 212, 255, 0.2);
+                border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+                z-index: 999;
+            }
+            .nav-links.show {
+                display: flex;
+            }
+        }
+
+
         /* Enhanced Hero Section with AI Elements */
         .hero {
             height: 100vh;
@@ -1266,11 +1298,14 @@
                 <li><a href="#experience" class="nav-link">Experience</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
                 <li>
-                    <a href="CHETHAN S P.pdf" download class="cta-button cta-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
+                    <a href="resume.pdf" download class="cta-button cta-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">
                         📄 Download Resume
                     </a>
                 </li>
             </ul>
+            <button class="hamburger" id="hamburger" aria-label="Toggle Menu">
+                ☰
+            </button>
         </nav>
     </header>
 
@@ -1717,6 +1752,23 @@
                     }
                 });
             });
+
+            const hamburger = document.getElementById('hamburger');
+            const navLinksMenu = document.querySelector('.nav-links');
+            const navItems = document.querySelectorAll('.nav-links a');
+
+            // Toggle menu on hamburger click
+            hamburger.addEventListener('click', () => {
+                navLinksMenu.classList.toggle('show');
+            });
+
+            // Close menu when any nav link is clicked (on mobile)
+            navItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    navLinksMenu.classList.remove('show');
+                });
+            });
+
 
             // Enhanced active navigation highlight
             const sections = document.querySelectorAll('section');
